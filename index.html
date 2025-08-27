@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Page Scroll with Background Images</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .section {
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 1.2s ease; /* slowed down */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      text-align: center;
+      padding: 0 2rem;
+    }
+
+    .section.inactive-up {
+      transform: translateY(-100%);
+    }
+
+    .section.inactive-down {
+      transform: translateY(100%);
+    }
+
+    .section.active {
+      transform: translateY(0);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+    }
+
+    .heading {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sections with background images and 2-line headings -->
+  <div class="section active" style="background-image: url('https://images.unsplash.com/photo-1691727320905-e4787c099c67?q=80&w=1170&auto=format&fit=crop');">
+    <div class="overlay"></div>
+    <h1 class="heading text-6xl font-bold text-white">
+      Every Brand Has a Story <br> Here’s Ours
+    </h1>
+  </div>
+
+  <div class="section inactive-down" style="background-image: url('https://images.unsplash.com/photo-1715683335288-d8fa0e2ffcb8?q=80&w=1170&auto=format&fit=crop');">
+    <div class="overlay"></div>
+    <h1 class="heading text-6xl font-bold text-white">
+      Built on Dreams, <br> Driven by Passion
+    </h1>
+  </div>
+
+  <div class="section inactive-down" style="background-image: url('https://images.unsplash.com/photo-1664095809651-9825d67bff9f?q=80&w=1171&auto=format&fit=crop');">
+    <div class="overlay"></div>
+    <h1 class="heading text-6xl font-bold text-white">
+      Crafted for Those Who <br> Dare to Stand Out
+    </h1>
+  </div>
+
+  <div class="section inactive-down" style="background-image: url('https://images.unsplash.com/photo-1679908215523-63fee76bbdd6?q=80&w=1170&auto=format&fit=crop');">
+    <div class="overlay"></div>
+    <h1 class="heading text-6xl font-bold text-white">
+      Let’s Create Something <br> Timeless Together
+    </h1>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const sections = document.querySelectorAll('.section');
+    let currentIndex = 0;
+    let isScrolling = false;
+
+    function scrollToNext() {
+      if (isScrolling || currentIndex >= sections.length - 1) return;
+      isScrolling = true;
+
+      const current = sections[currentIndex];
+      const next = sections[currentIndex + 1];
+
+      current.classList.remove('active');
+      current.classList.add('inactive-up');
+
+      next.classList.remove('inactive-down');
+      next.classList.add('active');
+
+      currentIndex++;
+      setTimeout(() => { isScrolling = false; }, 1200); // match new transition duration
+    }
+
+    function scrollToPrev() {
+      if (isScrolling || currentIndex <= 0) return;
+      isScrolling = true;
+
+      const current = sections[currentIndex];
+      const prev = sections[currentIndex - 1];
+
+      current.classList.remove('active');
+      current.classList.add('inactive-down');
+
+      prev.classList.remove('inactive-up');
+      prev.classList.add('active');
+
+      currentIndex--;
+      setTimeout(() => { isScrolling = false; }, 1200);
+    }
+
+    window.addEventListener('wheel', (e) => {
+      if (e.deltaY > 0) scrollToNext();
+      else scrollToPrev();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === "ArrowDown") scrollToNext();
+      if (e.key === "ArrowUp") scrollToPrev();
+    });
+  </script>
+
+</body>
+</html>
