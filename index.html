@@ -1,141 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Full Page Scroll with Background Images</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
   <style>
-    body, html {
+    :root {
+      --vh: 1vh; /* fallback */
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
-      overflow: hidden;
       height: 100%;
+      overflow: hidden;             /* prevent native scroll */
+      overscroll-behavior: none;    /* stop iOS bounce */
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: none;           /* let JS handle swipe */
     }
 
     .section {
       position: absolute;
       width: 100%;
-      height: 100vh;
+      height: calc(var(--vh) * 100);   /* ✅ correct usage */
       top: 0;
       left: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 1.2s ease; /* slowed down */
+      transition: transform 1.2s ease;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       text-align: center;
       padding: 0 2rem;
+      will-change: transform;
     }
 
-    .section.inactive-up {
-      transform: translateY(-100%);
-    }
-
-    .section.inactive-down {
-      transform: translateY(100%);
-    }
-
-    .section.active {
-      transform: translateY(0);
-    }
+    .section.inactive-up   { transform: translateY(-100%); }
+    .section.inactive-down { transform: translateY(100%); }
+    .section.active        { transform: translateY(0); }
 
     .overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0, 0, 0, 0.1);
+      pointer-events: none;
     }
 
     .heading {
       position: relative;
       z-index: 10;
       text-align: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 105px;
+      line-height: 1.5;
+      padding: 0 1rem;
+      word-break: break-word;
     }
+
+    .white-heading { color: white; }
+    .black-heading { color: black; }
+
+    /* Responsive */
+    @media (max-width: 1440px) { .heading { font-size: 90px;  line-height: 1.45; } }
+    @media (max-width: 1024px) { .heading { font-size: 70px;  line-height: 1.4;  } }
+    @media (max-width: 768px)  { .heading { font-size: 50px;  line-height: 1.35; } }
+    @media (max-width: 480px)  { .heading { font-size: 35px;  line-height: 1.3;  } }
+    @media (max-width: 360px)  { .heading { font-size: 30px;  line-height: 1.25; } }
   </style>
 </head>
+
 <body>
-
-  <!-- Sections with background images and 2-line headings -->
-  <div class="section active" style="background-image: url('https://images.unsplash.com/photo-1691727320905-e4787c099c67?q=80&w=1170&auto=format&fit=crop');">
+  <!-- Sections -->
+  <div class="section active" style="background-image: url('https://static.wixstatic.com/media/095573_d64e35b524e4495d9ebb26b03e034d82~mv2.jpg');">
     <div class="overlay"></div>
-    <h1 class="heading text-6xl font-bold text-white">
-      Every Brand Has a Story <br> Here’s Ours
-    </h1>
+    <h1 class="heading white-heading">Every Brand Has a Story <br> Here’s Ours</h1>
   </div>
 
-  <div class="section inactive-down" style="background-image: url('https://images.unsplash.com/photo-1715683335288-d8fa0e2ffcb8?q=80&w=1170&auto=format&fit=crop');">
+  <div class="section inactive-down" style="background-image: url('https://static.wixstatic.com/media/095573_5b8490c1af1d4c47a579f9a48a5bc109~mv2.jpg');">
     <div class="overlay"></div>
-    <h1 class="heading text-6xl font-bold text-white">
-      Built on Dreams, <br> Driven by Passion
-    </h1>
+    <h1 class="heading white-heading">Built on Dreams, <br> Driven by Passion</h1>
   </div>
 
-  <div class="section inactive-down" style="background-image: url('https://images.unsplash.com/photo-1664095809651-9825d67bff9f?q=80&w=1171&auto=format&fit=crop');">
+  <div class="section inactive-down" style="background-image: url('https://static.wixstatic.com/media/nsplsh_b7d93021fe01440bbd3b25d9f951b728~mv2.jpg');">
     <div class="overlay"></div>
-    <h1 class="heading text-6xl font-bold text-white">
-      Crafted for Those Who <br> Dare to Stand Out
-    </h1>
+    <h1 class="heading black-heading">Crafted for Those <br> Who Dare to Stand Out</h1>
   </div>
 
-  <div class="section inactive-down" style="background-image: url('https://images.unsplash.com/photo-1679908215523-63fee76bbdd6?q=80&w=1170&auto=format&fit=crop');">
+  <div class="section inactive-down" style="background-image: url('https://static.wixstatic.com/media/095573_d64e35b524e4495d9ebb26b03e034d82~mv2.jpg');">
     <div class="overlay"></div>
-    <h1 class="heading text-6xl font-bold text-white">
-      Let’s Create Something <br> Timeless Together
-    </h1>
+    <h1 class="heading white-heading">Style is the Silent <br> Introduction</h1>
   </div>
 
-  <!-- JavaScript -->
+  <div class="section inactive-down" style="background-image: url('https://static.wixstatic.com/media/095573_bc365d0f96604134b74a0c358eb4e662~mv2.jpg');">
+    <div class="overlay"></div>
+    <h1 class="heading black-heading">Quality You Can Feel, <br> Trust You Can Wear</h1>
+  </div>
+
+  <div class="section inactive-down" style="background-image: url('https://static.wixstatic.com/media/095573_d162270590ea42469655023a0733afbb~mv2.jpg');">
+    <div class="overlay"></div>
+    <h1 class="heading black-heading">Your Voice, <br> Our Inspiration</h1>
+  </div>
+
+  <div class="section inactive-down" style="background-image: url('https://static.wixstatic.com/media/095573_4bc3e488066a4633b167d6df4d65bfc9~mv2.jpg');">
+    <div class="overlay"></div>
+    <h1 class="heading white-heading">Let’s Create Something <br> Timeless Together</h1>
+  </div>
+
   <script>
+    // --- Mobile-safe 100vh fix ---
+    function setVh() {
+      const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight) * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    setVh();
+    window.addEventListener('resize', setVh);
+    window.addEventListener('orientationchange', setVh);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', setVh);
+    }
+
+    // --- Section navigation ---
     const sections = document.querySelectorAll('.section');
     let currentIndex = 0;
     let isScrolling = false;
 
-    function scrollToNext() {
-      if (isScrolling || currentIndex >= sections.length - 1) return;
+    function go(nextIndex) {
+      if (isScrolling || nextIndex === currentIndex || nextIndex < 0 || nextIndex >= sections.length) return;
       isScrolling = true;
 
       const current = sections[currentIndex];
-      const next = sections[currentIndex + 1];
+      const target  = sections[nextIndex];
 
-      current.classList.remove('active');
-      current.classList.add('inactive-up');
+      if (nextIndex > currentIndex) {
+        // going down
+        current.classList.remove('active');
+        current.classList.add('inactive-up');
+        target.classList.remove('inactive-down');
+        target.classList.add('active');
+      } else {
+        // going up
+        current.classList.remove('active');
+        current.classList.add('inactive-down');
+        target.classList.remove('inactive-up');
+        target.classList.add('active');
+      }
 
-      next.classList.remove('inactive-down');
-      next.classList.add('active');
-
-      currentIndex++;
-      setTimeout(() => { isScrolling = false; }, 1200); // match new transition duration
-    }
-
-    function scrollToPrev() {
-      if (isScrolling || currentIndex <= 0) return;
-      isScrolling = true;
-
-      const current = sections[currentIndex];
-      const prev = sections[currentIndex - 1];
-
-      current.classList.remove('active');
-      current.classList.add('inactive-down');
-
-      prev.classList.remove('inactive-up');
-      prev.classList.add('active');
-
-      currentIndex--;
+      currentIndex = nextIndex;
       setTimeout(() => { isScrolling = false; }, 1200);
     }
 
+    function scrollToNext() { go(currentIndex + 1); }
+    function scrollToPrev() { go(currentIndex - 1); }
+
+    // Desktop wheel & keys
     window.addEventListener('wheel', (e) => {
-      if (e.deltaY > 0) scrollToNext();
-      else scrollToPrev();
-    });
+      if (e.deltaY > 0) scrollToNext(); else scrollToPrev();
+    }, { passive: true });
 
     window.addEventListener('keydown', (e) => {
-      if (e.key === "ArrowDown") scrollToNext();
-      if (e.key === "ArrowUp") scrollToPrev();
+      if (e.key === 'ArrowDown') scrollToNext();
+      if (e.key === 'ArrowUp')   scrollToPrev();
     });
-  </script>
 
+    // Touch swipe (prevent native scroll)
+    let startY = 0;
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length) startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      // stop page from trying to scroll/bounce
+      e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener('touchend', (e) => {
+      const endY = e.changedTouches[0].clientY;
+      const delta = startY - endY;
+      const threshold = 50; // px
+      if (delta > threshold) scrollToNext();      // swipe up
+      else if (delta < -threshold) scrollToPrev(); // swipe down
+    }, { passive: false });
+  </script>
 </body>
 </html>
